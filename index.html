@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muly@-Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --sb-w:68px;
+  --menu-w:248px;
+  --sidebar-bg:#1a0a2e;
+  --sidebar-border:rgba(167,139,250,0.12);
+  --menu-bg:#10082a;
+  --content-bg:#07050f;
+  --accent-cyan:#38bdf8;
+  --accent-purple:#a78bfa;
+  --accent-indigo:#6366f1;
+  --accent-green:#34d399;
+  --text-hi:rgba(255,255,255,0.93);
+  --text-mid:rgba(255,255,255,0.52);
+  --text-lo:rgba(255,255,255,0.2);
+  --sep:rgba(255,255,255,0.06);
+}
+
+html,body{width:100%;height:100%;overflow:hidden;background:#07050f;font-family:'Exo 2',sans-serif;color:var(--text-hi);user-select:none}
+
+/* ══ SHELL ══ */
+#shell{position:fixed;inset:0;display:flex;z-index:2}
+
+/* ══ SIDEBAR ══ */
+#sidebar{
+  width:var(--sb-w);height:100%;flex-shrink:0;
+  background:linear-gradient(180deg,#1e0b38 0%,#140826 50%,#1a0b34 100%);
+  border-right:1px solid rgba(139,92,246,0.18);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:20;
+  display: none; /* Diubah ke display none agar tidak mendorong konten tengah di awal */
+  box-shadow:4px 0 24px rgba(88,28,220,0.18);
+}
+#sidebar.visible{display:flex}
+
+/* subtle purple shimmer line */
+#sidebar::before{
+  content:'';position:absolute;right:0;top:15%;height:70%;width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(139,92,246,0.35) 30%,rgba(139,92,246,0.35) 70%,transparent);
+}
+/* top glow */
+#sidebar::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:140px;
+  background:radial-gradient(ellipse 80% 100% at 50% 0%,rgba(139,92,246,0.2) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ── home btn in sidebar ── */
+#home-btn{
+  width:46px;height:46px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,rgba(167,139,250,0.22) 0%,rgba(20,8,38,0.95) 65%);
+  border:1.5px solid rgba(139,92,246,0.35);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;z-index:1;
+  box-shadow:0 4px 20px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.06);
+  transition:box-shadow 250ms ease,border-color 250ms ease,transform 140ms ease,background 250ms ease;
+  /* Animasi float dihapus dari sini agar saat jadi sidebar tidak bergerak-gerak */
+}
+#home-btn:hover{
+  border-color:rgba(167,139,250,0.6);
+  box-shadow:0 0 18px rgba(139,92,246,0.3),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.07);
+}
+#home-btn.lit{
+  border-color:rgba(167,139,250,0.8);
+  background:radial-gradient(circle at 38% 32%,rgba(167,139,250,0.35) 0%,rgba(20,8,38,0.88) 65%);
+  box-shadow:0 0 0 2.5px rgba(139,92,246,0.5),0 0 30px rgba(139,92,246,0.45),0 0 65px rgba(139,92,246,0.15),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1);
+  animation:pulse-p 2.8s ease-in-out infinite; /* Hanya pulse, animasi float dihilangkan */
+}
+#home-btn.pressed{transform:scale(0.87)!important;animation:none!important;
+  border-color:rgba(167,139,250,0.9);
+  box-shadow:0 0 0 3px rgba(139,92,246,0.55),0 0 40px rgba(139,92,246,0.5),inset 0 1px 0 rgba(255,255,255,0.12);
+}
+#home-icon{width:24px;height:24px;transition:filter 250ms ease}
+#home-btn.lit #home-icon{filter:drop-shadow(0 0 6px rgba(167,139,250,0.9))}
+
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes pulse-p{
+  0%,100%{box-shadow:0 0 0 2.5px rgba(139,92,246,0.5),0 0 30px rgba(139,92,246,0.45),0 0 65px rgba(139,92,246,0.15),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1)}
+  50%{box-shadow:0 0 0 5px rgba(139,92,246,0.28),0 0 50px rgba(139,92,246,0.55),0 0 100px rgba(139,92,246,0.2),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1)}
+}
+
+/* ══ MENU PANEL ══ */
+#menu-panel{
+  width:var(--menu-w);height:100%;flex-shrink:0;
+  background:linear-gradient(180deg,#120830 0%,#0e0625 60%,#110830 100%);
+  border-right:1px solid rgba(139,92,246,0.1);
+  display:flex;flex-direction:column;
+  display: none; /* Diubah ke display none agar tidak mendorong konten tengah di awal */
+  position:relative;z-index:19;
+  box-shadow:4px 0 20px rgba(0,0,0,0.35);
+}
+#menu-panel.visible{display:flex}
+
+.menu-header{
+  padding:26px 18px 14px;border-bottom:1px solid var(--sep);flex-shrink:0;
+}
+.menu-header h2{
+  font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;
+  letter-spacing:.45em;text-transform:uppercase;color:rgba(139,92,246,0.45);
+}
+.menu-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:6px 0 80px}
+.menu-scroll::-webkit-scrollbar{width:2px}
+.menu-scroll::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.2);border-radius:2px}
+
+/* category group */
+.cat-group{margin-bottom:2px}
+.cat-header{
+  display:flex;align-items:center;gap:9px;
+  padding:11px 18px 9px;cursor:pointer;
+  transition:background 180ms ease;
+}
+.cat-header:hover{background:rgba(139,92,246,0.06)}
+.cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:box-shadow 300ms ease}
+.cat-header.open .cat-dot,.cat-header:hover .cat-dot{box-shadow:0 0 8px currentColor}
+.cat-title{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;flex:1;transition:color 180ms ease}
+.cat-arrow{width:13px;height:13px;opacity:.35;transition:transform 280ms cubic-bezier(.34,1.56,.64,1),opacity 200ms ease;flex-shrink:0}
+.cat-header.open .cat-arrow{transform:rotate(90deg);opacity:.65}
+
+/* per-cat colors */
+.cat-group[data-cat="ANALYS"] .cat-dot{background:var(--accent-cyan);color:var(--accent-cyan)}
+.cat-group[data-cat="ANALYS"] .cat-title{color:var(--accent-cyan)}
+.cat-group[data-cat="MONITORING"] .cat-dot{background:var(--accent-green);color:var(--accent-green)}
+.cat-group[data-cat="MONITORING"] .cat-title{color:var(--accent-green)}
+.cat-group[data-cat="QC"] .cat-dot{background:rgba(167,139,250,0.45);color:rgba(167,139,250,0.45)}
+.cat-group[data-cat="QC"] .cat-title{color:rgba(167,139,250,0.45)}
+
+/* sub items */
+.cat-items{overflow:hidden;max-height:0;transition:max-height 340ms cubic-bezier(.22,1,.36,1)}
+.cat-items.open{max-height:300px}
+.menu-item{
+  display:flex;align-items:center;gap:11px;
+  padding:9px 18px 9px 34px;cursor:pointer;
+  transition:background 160ms ease;
+}
+.menu-item:hover{background:rgba(139,92,246,0.07)}
+.menu-item.disabled{opacity:.32;cursor:default;pointer-events:none}
+.item-icon{width:17px;height:17px;flex-shrink:0;opacity:.72}
+.cat-group[data-cat="ANALYS"] .item-icon{color:var(--accent-cyan)}
+.cat-group[data-cat="MONITORING"] .item-icon{color:var(--accent-green)}
+.cat-group[data-cat="QC"] .item-icon{color:var(--accent-purple)}
+.item-label{font-family:'Exo 2',sans-serif;font-size:11.5px;font-weight:400;color:var(--text-mid);letter-spacing:.03em;flex:1;line-height:1.3;transition:color 160ms ease}
+.menu-item:hover .item-label{color:var(--text-hi)}
+.item-arr{width:11px;height:11px;opacity:0;color:rgba(139,92,246,0.5);transition:opacity 160ms ease,transform 160ms ease;flex-shrink:0}
+.menu-item:hover .item-arr{opacity:1;transform:translateX(2px)}
+.soon-pill{font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);color:rgba(139,92,246,0.5);padding:2px 7px;border-radius:10px;white-space:nowrap}
+
+/* ══ CONTENT AREA ══ */
+#content{flex:1;height:100%;position:relative;overflow:hidden;background:#07050f}
+
+/* bg gradient that fades in when open */
+#content-grad{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 65% 55% at 55% 42%,rgba(99,102,241,0.1) 0%,transparent 65%),
+    radial-gradient(ellipse 45% 45% at 82% 78%,rgba(139,92,246,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 40% at 15% 20%,rgba(56,189,248,0.04) 0%,transparent 55%);
+  opacity:0;transition:opacity 700ms ease;
+}
+#content-grad.on{opacity:1}
+
+/* ══════════════════════════════════════
+   CLOSED STATE — center home button
+   Memastikan tombol benar-benar simetris mutlak di tengah
+══════════════════════════════════════ */
+#stage{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding-bottom:18px; /* Disesuaikan agar sejajar presisi vertikal dengan footer */
+  z-index:2;pointer-events:none;
+}
+#stage.hidden{display:none}
+
+#center-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:18px;
+  pointer-events:all;
+  transition:opacity 320ms ease,transform 320ms cubic-bezier(.55,0,1,.45);
+  animation:float 3.8s ease-in-out infinite; /* Efek melayang dipindah ke sini agar tombol awal tetap smooth melayang */
+}
+#center-wrap.out{opacity:0;transform:scale(.82);pointer-events:none;animation:none;}
+
+/* particle / orbit ring */
+#orbit{
+  position:relative;width:160px;height:160px;
+  display:flex;align-items:center;justify-content:center;
+}
+.orbit-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(56,189,248,0.09);
+  animation:spin-slow 18s linear infinite;
+}
+.orbit-ring:nth-child(1){width:130px;height:130px;border-color:rgba(56,189,248,0.1);animation-duration:14s}
+.orbit-ring:nth-child(2){width:155px;height:155px;border-color:rgba(139,92,246,0.07);animation-direction:reverse;animation-duration:22s}
+.orbit-dot{
+  position:absolute;width:4px;height:4px;border-radius:50%;background:var(--accent-cyan);
+  top:50%;left:0;margin-top:-2px;
+  box-shadow:0 0 6px var(--accent-cyan);
+}
+.orbit-ring:nth-child(2) .orbit-dot{background:var(--accent-purple);box-shadow:0 0 6px var(--accent-purple);left:auto;right:0}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* actual home button on stage */
+#big-btn{
+  width:72px;height:72px;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,rgba(56,189,248,0.13) 0%,rgba(7,5,15,0.96) 65%);
+  border:1.5px solid rgba(56,189,248,0.22);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow:0 8px 32px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.05);
+  transition:box-shadow 250ms ease,border-color 250ms ease,transform 140ms ease,background 250ms ease;
+  position:relative;z-index:2;
+}
+#big-btn:hover{
+  border-color:rgba(56,189,248,0.45);
+  box-shadow:0 0 20px rgba(56,189,248,0.18),0 8px 32px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.06);
+}
+#big-btn.pressed{
+  transform:scale(0.87)!important;
+  border-color:rgba(56,189,248,0.75);
+  box-shadow:0 0 0 3px rgba(56,189,248,0.4),0 0 38px rgba(56,189,248,0.38),inset 0 1px 0 rgba(255,255,255,0.1);
+  background:radial-gradient(circle at 36% 30%,rgba(56,189,248,0.28) 0%,rgba(7,5,15,0.92) 65%);
+}
+#big-icon{width:32px;height:32px}
+.big-label{
+  font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:500;
+  letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,0.18);
+}
+
+/* animated glowing SVG ring around big btn */
+.glow-svg{
+  position:absolute;width:90px;height:90px;pointer-events:none;z-index:1;
+  animation:spin-slow 8s linear infinite;
+}
+
+/* ══ CONTENT HINT ══ */
+#hint{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  pointer-events:none;z-index:2;
+  opacity:0;transition:opacity 450ms ease;
+}
+#hint.on{opacity:1}
+.hint-svg{width:40px;height:40px;color:rgba(99,102,241,0.18)}
+.hint-txt{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,0.1)}
+
+/* ══ ANIMASI ROBOT GIPHY ══ */
+#robot-container {
+  position: absolute;
+  right: 15%;
+  bottom: 20%;
+  width: 180px;
+  height: 180px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 600ms ease, transform 600ms cubic-bezier(.22,1,.36,1);
+}
+#robot-container.show {
+  opacity: 0.75; /* Sedikit transparan agar menyatu dengan nuansa gelap/cyberpunk */
+  transform: translateY(0);
+}
+#robot-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ══ FOOTER ══ */
+#footer{
+  position:fixed;bottom:18px;left:0;right:0;
+  text-align:center;z-index:30;pointer-events:none;
+}
+#footer span{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.18)}
+#footer a{color:rgba(56,189,248,0.32);text-decoration:none;letter-spacing:.08em;transition:color 200ms ease;pointer-events:all}
+#footer a:hover{color:var(--accent-cyan)}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:480px){
+  :root{--menu-w:210px}
+  #orbit{width:130px;height:130px}
+  .orbit-ring:nth-child(1){width:105px;height:105px}
+  .orbit-ring:nth-child(2){width:126px;height:126px}
+  #big-btn{width:60px;height:60px}
+  #big-icon{width:26px;height:26px}
+  #robot-container{right: 5%; bottom: 15%; width: 120px; height: 120px;}
+}
+</style>
+</head>
+<body>
+
+<div id="shell">
+
+  <div id="sidebar">
+    <div id="home-btn" role="button" aria-label="Tutup menu" tabindex="0">
+      <svg id="home-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 11.5L12 4L21 11.5V21H15V15.5H9V21H3V11.5Z" stroke="rgba(167,139,250,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 21V18C10 17.2 10.7 16.5 11.5 16.5H12.5C13.3 16.5 14 17.2 14 18V21" stroke="rgba(167,139,250,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <div id="menu-panel">
+    <div class="menu-header"><h2>Muly@-Portal</h2></div>
+    <div class="menu-scroll" id="menu-scroll"></div>
+  </div>
+
+  <div id="content">
+    <div id="content-grad"></div>
+
+    <div id="stage">
+      <div id="center-wrap">
+        <div id="orbit">
+          <div class="orbit-ring"><div class="orbit-dot"></div></div>
+          <div class="orbit-ring"><div class="orbit-dot"></div></div>
+          <svg class="glow-svg" viewBox="0 0 90 90" fill="none" aria-hidden="true">
+            <circle cx="45" cy="45" r="42" stroke="rgba(56,189,248,0.12)" stroke-width="1"/>
+            <path d="M45 3 A42 42 0 0 1 87 45" stroke="rgba(56,189,248,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="87" cy="45" r="2.5" fill="rgba(56,189,248,0.8)"/>
+          </svg>
+          <div id="big-btn" role="button" aria-label="Buka Muly Portal" tabindex="0">
+            <svg id="big-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M4 15L16 5L28 15V28H20.5V21H11.5V28H4V15Z" stroke="rgba(56,189,248,0.88)" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M13 28V24.5C13 23.7 13.7 23 14.5 23H17.5C18.3 23 19 23.7 19 24.5V28" stroke="rgba(56,189,248,0.88)" stroke-width="1.55" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="hint">
+      <svg class="hint-svg" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <path d="M8 20h24M26 14l6 6-6 6"/>
+      </svg>
+    </div>
+
+    <div id="robot-container">
+      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWk3YWtsYXBrdGhqcTV2ZWJsYXk3aXd2Nm9ib2liZGV3Zm4xc3RtbSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/ErSDFlzowwgs8s1kM9/giphy.webp" alt="Robot Astronaut">
+    </div>
+
+  </div>
+</div>
+
+<div id="footer">
+  <span>Powered By: <a href="mailto:Muly@.ID">Muly@.ID</a></span>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ── menu data ── */
+const MENU=[
+  { cat:'ANALYS', label:'Analisa', items:[
+    {id:'produktivitas',label:'Analisa Produktivitas',url:'https://mulyadhialawihisyam-design.github.io/bobotpacker/',
+     icon:`<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="15" y1="16" x2="15" y2="8"/><line x1="9" y1="16" x2="9" y2="3"/><line x1="3" y1="16" x2="3" y2="11"/><line x1="1" y1="16" x2="16" y2="16"/></svg>`},
+    {id:'complain',label:'Analisa Complain',url:'https://mulyadhialawihisyam-design.github.io/dashboard-complain/',
+     icon:`<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="7"/><line x1="8.5" y1="5.5" x2="8.5" y2="8.5"/><circle cx="8.5" cy="11.5" r=".5" fill="currentColor"/></svg>`},
+    {id:'checkpoint',label:'Analisa Checkpoint',url:'https://mulyadhialawihisyam-design.github.io/analisa_invoicedroping/',
+     icon:`<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 8.5 12 8.5 10 14 7 3 5 8.5 1 8.5"/></svg>`},
+  ]},
+  { cat:'MONITORING', label:'Monitoring', items:[
+    {id:'asset',label:'Asset',url:'https://mulyadhialawihisyam-design.github.io/cuttermonitoring/',
+     icon:`<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="2" width="15" height="10" rx="1.5"/><path d="M5 15h7M8.5 12v3"/><circle cx="8.5" cy="7" r="2.2"/></svg>`},
+  ]},
+  { cat:'QC', label:'Menyusul', items:[
+    {id:'qc',label:'Menyusul',url:'#',disabled:true,
+     icon:`<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="7"/><polyline points="8.5 5 8.5 8.5 11 10"/></svg>`},
+  ]},
+];
+
+/* ── state ── */
+let isOpen=false, busy=false;
+
+/* ── refs ── */
+const sidebar     = document.getElementById('sidebar');
+const menuPanel   = document.getElementById('menu-panel');
+const menuScroll  = document.getElementById('menu-scroll');
+const homeBtn     = document.getElementById('home-btn');
+const bigBtn      = document.getElementById('big-btn');
+const centerWrap  = document.getElementById('center-wrap');
+const contentGrad = document.getElementById('content-grad');
+const hint        = document.getElementById('hint');
+const robotBox    = document.getElementById('robot-container');
+
+/* ── build menu ── */
+MENU.forEach(group=>{
+  const g=document.createElement('div');
+  g.className='cat-group'; g.dataset.cat=group.cat;
+
+  const hdr=document.createElement('div');
+  hdr.className='cat-header';
+  hdr.innerHTML=`<div class="cat-dot"></div><span class="cat-title">${group.label}</span>
+    <svg class="cat-arrow" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><polyline points="4.5 2 9.5 6.5 4.5 11"/></svg>`;
+
+  const items=document.createElement('div');
+  items.className='cat-items';
+
+  /* auto-open if single item */
+  if(group.items.length===1){hdr.classList.add('open');items.classList.add('open')}
+
+  group.items.forEach(item=>{
+    const row=document.createElement('div');
+    row.className='menu-item'+(item.disabled?' disabled':'');
+    row.innerHTML=`<div class="item-icon">${item.icon}</div>
+      <span class="item-label">${item.label}</span>
+      ${item.disabled
+        ?'<span class="soon-pill">Segera</span>'
+        :`<svg class="item-arr" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="3.5 2 8.5 5.5 3.5 9"/></svg>`}`;
+    if(!item.disabled) row.addEventListener('click',()=>window.open(item.url,'_blank','noopener,noreferrer'));
+    items.appendChild(row);
+  });
+
+  hdr.addEventListener('click',()=>{
+    const opening=!items.classList.contains('open');
+    menuScroll.querySelectorAll('.cat-items.open').forEach(el=>{
+      el.classList.remove('open');
+      el.closest('.cat-group').querySelector('.cat-header').classList.remove('open');
+    });
+    if(opening){items.classList.add('open');hdr.classList.add('open')}
+  });
+
+  g.appendChild(hdr); g.appendChild(items);
+  menuScroll.appendChild(g);
+});
+
+/* ── open ── */
+function openPortal(){
+  if(isOpen||busy) return; busy=true;
+  bigBtn.classList.add('pressed');
+
+  setTimeout(()=>{
+    bigBtn.classList.remove('pressed');
+    centerWrap.classList.add('out');
+
+    setTimeout(()=>{
+      sidebar.classList.add('visible');
+      menuPanel.classList.add('visible');
+      contentGrad.classList.add('on');
+      homeBtn.classList.add('lit');
+      
+      setTimeout(()=>{
+        hint.classList.add('on');
+        robotBox.classList.add('show'); /* Munculkan robot animasi Giphy */
+      },620);
+      
+      isOpen=true; busy=false;
+    },280);
+  },165);
+}
+
+/* ── close ── */
+function closePortal(){
+  if(!isOpen||busy) return; busy=true;
+  homeBtn.classList.add('pressed');
+  setTimeout(()=>homeBtn.classList.remove('pressed'),160);
+
+  hint.classList.remove('on');
+  robotBox.classList.remove('show'); /* Sembunyikan robot animasi Giphy */
+  menuPanel.classList.remove('visible');
+
+  setTimeout(()=>{
+    sidebar.classList.remove('visible');
+    homeBtn.classList.remove('lit');
+    contentGrad.classList.remove('on');
+    setTimeout(()=>{
+      centerWrap.classList.remove('out');
+      isOpen=false; busy=false;
+    },300);
+  },90);
+}
+
+/* ── events ── */
+bigBtn.addEventListener('click',openPortal);
+bigBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPortal()}});
+homeBtn.addEventListener('click',closePortal);
+homeBtn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();closePortal()}});
+
+})();
+</script>
+</body>
+</html>
