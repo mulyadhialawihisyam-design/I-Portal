@@ -665,14 +665,8 @@ const MENU = [
     label: 'Analisa', 
     items: [
       {
-        id: 'produktivitas', 
-        label: 'Analisa Produktivitas',
-        url: 'https://script.google.com/macros/s/AKfycbyvASfyyUB_sGhO76y7jYMcwJ05HsYjih5uZ8CDeawU2HwJcPsYtimgs-j7jhRoUYdAXw/exec',
-        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="15" y1="16" x2="15" y2="8"/><line x1="9" y1="16" x2="9" y2="3"/><line x1="3" y1="16" x2="3" y2="11"/><line x1="1" y1="16" x2="16" y2="16"/></svg>`
-      },
-      {
-        id: 'complain', 
-        label: 'Analisa Complain', 
+        id: 'Akurasi', 
+        label: 'Analisa Detail Akurasi', 
         url: 'https://mulyadhialawihisyam-design.github.io/dashboard-complain/',
         icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="7"/><line x1="8.5" y1="5.5" x2="8.5" y2="8.5"/><circle cx="8.5" cy="11.5" r=".5" fill="currentColor"/></svg>`
       },
@@ -680,19 +674,31 @@ const MENU = [
         id: 'checkpoint', 
         label: 'Analisa Checkpoint', 
         url: 'https://mulyadhialawihisyam-design.github.io/analisa_invoicedroping/',
-        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 8.5 12 8.5 10 14 7 3 5 8.5 1 8.5"/></svg>`
+        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="6.5"/><polyline points="8.5 4.5 8.5 8.5 11.5 8.5"/></svg>`
       },
       {
         id: 'prioritas', 
         label: 'Analisa Prioritas', 
         url: 'https://script.google.com/macros/s/AKfycbxpBspRe854pS5RLx2PDslOCLvSjuvzZf4xLXzr1D3lviApL-ow6phnX4MEGK7dWNta/exec',
-        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 3.5h12M2.5 7.5h12M2.5 11.5h6"/><circle cx="13" cy="12" r="2"/><path d="M13 11v1"/><path d="M13 13.5h.01"/></svg>`
+        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="9.5 1.5 3.5 9.5 8.5 9.5 7.5 15.5 13.5 7.5 8.5 7.5"/></svg>`
       },
       {
         id: 'shipper', 
         label: 'Analisa Shipper', 
         url: 'https://script.google.com/macros/s/AKfycbwtZjG5ZFUsu0QK1fofO0uRlWNjfNbk0bO0LAegh4pPNApwmFpFSRbA4jSfJSP2pait/exec',
         icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.5l7-3.5 7 3.5-7 3.5-7-3.5zM15.5 5.5v6l-7 3.5-7-3.5v-6M8.5 9v6.5"/></svg>`
+      },
+      {
+        id: 'forecasting',
+        label: 'Forecasting',
+        url: 'https://script.google.com/macros/s/AKfycbyuwSSXwTfwiiL-gg53BVD7XxNHLy-XHB3kQslKIcbAvvsIgExLsSBKtWcr_GM3-4mc/exec',
+        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 14.5l3.5-5 3 2.5 5.5-8"/><path d="M11 4h3.5v3.5"/><path d="M2.5 14.5h12" stroke-dasharray="2 2"/></svg>`
+      },
+      {
+        id: 'sku-kurang-part',
+        label: 'Analisa SKU Kurang Part',
+        url: 'https://script.google.com/macros/s/AKfycbyyPk_F3xBYHZDJpYgyY_gsjxs0d13AHluw6Cvvj8hfZCLNJACWqPpGcv6_FL-oQTCCgA/exec',
+        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l-2-2-2 2 2 2zM11.5 3.5L4.5 10.5M3 12l2 2M2 15l1.5-1.5"/><polygon points="12.5,10.5 15.5,10.5 16.5,12.5 15.5,14.5 12.5,14.5 11.5,12.5"/></svg>`
       }
     ]
   },
@@ -700,6 +706,12 @@ const MENU = [
     cat: 'MONITORING', 
     label: 'Monitoring', 
     items: [
+      {
+        id: 'produktivitas', 
+        label: 'Monitoring Produktivitas Bobot',
+        url: 'https://script.google.com/macros/s/AKfycbyvASfyyUB_sGhO76y7jYMcwJ05HsYjih5uZ8CDeawU2HwJcPsYtimgs-j7jhRoUYdAXw/exec',
+        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="15" y1="16" x2="15" y2="8"/><line x1="9" y1="16" x2="9" y2="3"/><line x1="3" y1="16" x2="3" y2="11"/><line x1="1" y1="16" x2="16" y2="16"/></svg>`
+      },
       {
         id: 'asset',
         label: 'Asset',
@@ -710,19 +722,7 @@ const MENU = [
         id: 'kpi-karyawan',
         label: 'KPI Karyawan',
         url: 'https://mulyadhialawihisyam-design.github.io/new-productivity/',
-        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15h13M2 12l4-4 3.5 3.5L14 4M10 4h4v4"/></svg>`
-      },
-      {
-        id: 'estimasi-fee-harian',
-        label: 'Estimasi Fee Harian',
-        url: 'https://script.google.com/macros/s/AKfycbxr-vuYha8xUdr0uwgUIUUCDySDBtIy_KGeDXwPaQcHynhLBPX7ouvSoQvcrPycDa-DxA/exec',
-        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="11.5" r="3.5"/><circle cx="11.5" cy="5.5" r="3.5"/><path d="M2 2h3.5v3.5M15 15h-3.5v-3.5"/></svg>`
-      },
-      {
-        id: 'forecasting',
-        label: 'Forecasting',
-        url: 'https://script.google.com/macros/s/AKfycbyuwSSXwTfwiiL-gg53BVD7XxNHLy-XHB3kQslKIcbAvvsIgExLsSBKtWcr_GM3-4mc/exec',
-        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 14.5l3.5-5 3 2.5 5.5-8"/><path d="M11 4h3.5v3.5"/><path d="M2.5 14.5h12" stroke-dasharray="2 2"/></svg>`
+        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="5" r="3"/><path d="M3 15c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5"/><path d="M7 11.5h3v3.5H7z"/></svg>`
       }
     ]
   },
@@ -741,6 +741,12 @@ const MENU = [
         label: 'Print Barcode', 
         url: 'https://mulyadhialawihisyam-design.github.io/qrforasset/',
         icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h2v11H2zM6 3h1v11H6zM9 3h3v11H9zM14 3h1v11H14zM1.5 1.5h3v-1h-3zm11-1h3v1h-3zM1.5 15.5h3v1h-3zm11 1h3v-1h-3z"/></svg>`
+      },
+      {
+        id: 'estimasi-fee-harian',
+        label: 'Estimasi Fee Harian',
+        url: 'https://script.google.com/macros/s/AKfycbxr-vuYha8xUdr0uwgUIUUCDySDBtIy_KGeDXwPaQcHynhLBPX7ouvSoQvcrPycDa-DxA/exec',
+        icon: `<svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5h3.5a2 2 0 0 1 0 4H2.5v4M6 8.5l2.5 4.5M11.5 7h3a1.5 1.5 0 0 1 0 3h-3v3M11.5 7v6"/></svg>`
       }
     ]
   }
