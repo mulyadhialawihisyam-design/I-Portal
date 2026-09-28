@@ -559,6 +559,138 @@ html,body{width:100%;height:100%;overflow:hidden;background:#07050f;font-family:
   #big-icon{width:26px;height:26px}
   .blocked-inner{padding:28px 20px;max-width:90%}
 }
+
+/* ══════════════════════════════════════
+   LOGIN — Overlay & Card
+══════════════════════════════════════ */
+#login-overlay{
+  position:fixed;inset:0;z-index:200;
+  display:none;align-items:center;justify-content:center;padding:20px;
+  background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(15,8,35,0.8) 0%,rgba(7,5,15,0.95) 78%);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;transition:opacity 260ms ease;
+}
+#login-overlay.visible{display:flex}
+#login-overlay.show{opacity:1}
+
+.login-card{
+  width:100%;max-width:360px;position:relative;
+  padding:34px 30px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:18px;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(139,92,246,0.18);
+  border-radius:18px;
+  box-shadow:0 0 60px rgba(88,28,220,0.14),0 24px 64px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.04);
+  transform:translateY(10px) scale(.98);
+  transition:transform 320ms cubic-bezier(.22,1,.36,1);
+}
+#login-overlay.show .login-card{transform:none}
+.login-card.shake{animation:login-shake 420ms ease}
+@keyframes login-shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-9px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)}
+  80%{transform:translateX(3px)}
+}
+
+.login-close{
+  position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);
+  color:rgba(139,92,246,0.55);
+  transition:background 180ms ease,border-color 180ms ease,color 180ms ease;
+}
+.login-close:hover{background:rgba(139,92,246,0.14);border-color:rgba(139,92,246,0.35);color:rgba(167,139,250,0.95)}
+.login-close svg{width:11px;height:11px}
+
+/* orb */
+.login-orb{position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center}
+.login-orb .lg-ring{position:absolute;border-radius:50%;border:1px solid rgba(56,189,248,0.12);animation:spin-slow 12s linear infinite}
+.login-orb .lg-ring:nth-child(1){width:96px;height:96px;animation-duration:11s}
+.login-orb .lg-ring:nth-child(2){width:74px;height:74px;border-color:rgba(139,92,246,0.12);animation-direction:reverse;animation-duration:8s}
+.login-orb .lg-dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--accent-cyan);top:50%;left:0;margin-top:-2px;box-shadow:0 0 6px var(--accent-cyan)}
+.login-orb .lg-ring:nth-child(2) .lg-dot{background:var(--accent-purple);box-shadow:0 0 6px var(--accent-purple);left:auto;right:0}
+.login-core{
+  position:relative;z-index:2;width:50px;height:50px;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,rgba(56,189,248,0.16) 0%,rgba(7,5,15,0.96) 66%);
+  border:1.5px solid rgba(56,189,248,0.3);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 26px rgba(56,189,248,0.16),inset 0 1px 0 rgba(255,255,255,0.05);
+  transition:border-color 250ms ease,box-shadow 250ms ease;
+}
+.login-core svg{width:21px;height:21px}
+.login-card.is-error .login-core{border-color:rgba(248,113,113,0.55);box-shadow:0 0 26px rgba(248,113,113,0.2),inset 0 1px 0 rgba(255,255,255,0.05)}
+.login-card.is-locked .login-core{border-color:rgba(251,191,36,0.55);box-shadow:0 0 26px rgba(251,191,36,0.18),inset 0 1px 0 rgba(255,255,255,0.05)}
+
+.login-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,0.82);text-align:center;margin-top:-6px}
+.login-sub{font-family:'Exo 2',sans-serif;font-size:11px;font-weight:300;letter-spacing:.06em;color:rgba(255,255,255,0.3);text-align:center;line-height:1.6;margin-top:-12px}
+
+/* form */
+#login-form{width:100%;display:flex;flex-direction:column;gap:14px}
+.login-field{display:flex;flex-direction:column;gap:6px}
+.login-field label{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(139,92,246,0.6)}
+.login-input-wrap{
+  position:relative;display:flex;align-items:center;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(139,92,246,0.18);border-radius:10px;
+  transition:border-color 200ms ease,box-shadow 200ms ease,background 200ms ease;
+}
+.login-input-wrap:focus-within{border-color:rgba(56,189,248,0.55);background:rgba(56,189,248,0.04);box-shadow:0 0 18px rgba(56,189,248,0.1)}
+.login-input-wrap.invalid{border-color:rgba(248,113,113,0.55)}
+.login-input-wrap > svg.lead{width:15px;height:15px;margin-left:12px;flex-shrink:0;color:rgba(167,139,250,0.5)}
+.login-input-wrap input{
+  flex:1;min-width:0;background:transparent;border:none;outline:none;
+  padding:12px 12px;
+  font-family:'Exo 2',sans-serif;font-size:13px;font-weight:400;letter-spacing:.04em;
+  color:var(--text-hi);user-select:text;-webkit-user-select:text;
+}
+.login-input-wrap input::placeholder{color:rgba(255,255,255,0.18)}
+.login-input-wrap input:disabled{opacity:.45;cursor:not-allowed}
+.login-eye{
+  width:34px;height:34px;margin-right:4px;flex-shrink:0;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  background:transparent;border:none;color:rgba(167,139,250,0.45);
+  transition:color 180ms ease,background 180ms ease;
+}
+.login-eye:hover{color:rgba(167,139,250,0.95);background:rgba(139,92,246,0.08)}
+.login-eye svg{width:16px;height:16px}
+
+/* alert */
+.login-alert{
+  display:none;align-items:flex-start;gap:9px;
+  padding:10px 12px;border-radius:10px;
+  font-family:'Exo 2',sans-serif;font-size:11.5px;font-weight:400;line-height:1.5;letter-spacing:.02em;
+  background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.32);color:rgba(254,202,202,0.95);
+  animation:fadein 260ms ease;
+}
+.login-alert.show{display:flex}
+.login-alert svg{width:15px;height:15px;flex-shrink:0;margin-top:1px}
+.login-alert.warn{background:rgba(251,191,36,0.07);border-color:rgba(251,191,36,0.32);color:rgba(253,230,138,0.95)}
+.login-lockbar{display:none;width:100%;height:2px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:-6px}
+.login-lockbar.show{display:block}
+.login-lockbar > div{height:100%;width:100%;background:linear-gradient(90deg,#fbbf24,#f59e0b);transform-origin:left center}
+
+/* submit */
+.login-btn{
+  font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;
+  padding:12px 24px;border-radius:10px;cursor:pointer;margin-top:2px;
+  background:linear-gradient(135deg,rgba(99,102,241,0.22),rgba(56,189,248,0.16));
+  border:1px solid rgba(56,189,248,0.4);color:rgba(186,230,253,0.95);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:background 200ms ease,border-color 200ms ease,box-shadow 200ms ease,transform 140ms ease,opacity 200ms ease;
+}
+.login-btn:hover:not(:disabled){border-color:rgba(56,189,248,0.75);box-shadow:0 0 22px rgba(56,189,248,0.18);background:linear-gradient(135deg,rgba(99,102,241,0.3),rgba(56,189,248,0.22))}
+.login-btn:active:not(:disabled){transform:scale(.97)}
+.login-btn:disabled{opacity:.45;cursor:not-allowed}
+.login-spin{display:none;width:13px;height:13px;border-radius:50%;border:2px solid rgba(186,230,253,0.25);border-top-color:rgba(186,230,253,0.95);animation:spin-slow .7s linear infinite}
+.login-btn.busy .login-spin{display:inline-block}
+
+.login-note{font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.16);text-align:center}
+
+@media(max-width:480px){
+  .login-card{padding:30px 22px 22px;max-width:92%}
+}
 </style>
 </head>
 <body>
@@ -688,6 +820,65 @@ html,body{width:100%;height:100%;overflow:hidden;background:#07050f;font-family:
 
   </div><!-- #content -->
 </div><!-- #shell -->
+
+<!-- ══════════ LOGIN OVERLAY ══════════ -->
+<div id="login-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div class="login-card" id="login-card">
+    <div class="login-close" id="login-close" role="button" aria-label="Tutup" tabindex="0" title="Tutup">
+      <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="9.5" y2="9.5"/><line x1="9.5" y1="1.5" x2="1.5" y2="9.5"/></svg>
+    </div>
+
+    <div class="login-orb">
+      <div class="lg-ring"><div class="lg-dot"></div></div>
+      <div class="lg-ring"><div class="lg-dot"></div></div>
+      <div class="login-core">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="5" y="10.5" width="14" height="10" rx="2.2" stroke="rgba(56,189,248,0.9)" stroke-width="1.6"/>
+          <path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3" stroke="rgba(56,189,248,0.9)" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="12" cy="15.5" r="1.2" fill="rgba(56,189,248,0.9)"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="login-title" id="login-title">Akses Terbatas</div>
+    <div class="login-sub">Masuk untuk membuka Muly@-Portal</div>
+
+    <form id="login-form" autocomplete="on" novalidate>
+      <div class="login-field">
+        <label for="login-user">Username</label>
+        <div class="login-input-wrap" id="wrap-user">
+          <svg class="lead" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="5.2" r="2.8"/><path d="M2.5 14c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg>
+          <input id="login-user" name="username" type="text" placeholder="Masukkan username" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="60">
+        </div>
+      </div>
+
+      <div class="login-field">
+        <label for="login-pass">Password</label>
+        <div class="login-input-wrap" id="wrap-pass">
+          <svg class="lead" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="7" rx="1.6"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>
+          <input id="login-pass" name="password" type="password" placeholder="Masukkan password" autocomplete="current-password" spellcheck="false" maxlength="100">
+          <button type="button" class="login-eye" id="login-eye" aria-label="Tampilkan password" tabindex="-1">
+            <svg id="eye-on" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 8s2.5-4.5 7-4.5S15 8 15 8s-2.5 4.5-7 4.5S1 8 1 8z"/><circle cx="8" cy="8" r="2"/></svg>
+            <svg id="eye-off" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M2 2l12 12"/><path d="M6.6 3.7A7 7 0 0 1 8 3.5c4.5 0 7 4.5 7 4.5a11.6 11.6 0 0 1-2.2 2.7M9.4 12.2c-.5.2-1 .3-1.4.3C3.5 12.5 1 8 1 8a11.6 11.6 0 0 1 3-3.2"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="login-alert" id="login-alert" role="alert" aria-live="assertive">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.8L14.5 13H1.5L8 1.8z"/><line x1="8" y1="6.5" x2="8" y2="9.5"/><circle cx="8" cy="11.4" r=".5" fill="currentColor"/></svg>
+        <span id="login-alert-text"></span>
+      </div>
+      <div class="login-lockbar" id="login-lockbar"><div id="login-lockbar-fill"></div></div>
+
+      <button type="submit" class="login-btn" id="login-submit">
+        <span class="login-spin"></span>
+        <span id="login-submit-text">Masuk</span>
+      </button>
+    </form>
+
+    <div class="login-note">Khusus internal · Akses dipantau</div>
+  </div>
+</div>
 
 <div id="footer">
   <span style="color: #ffffff; font-weight: bold;">
@@ -1171,8 +1362,270 @@ function closePortal(){
   }, 90);
 }
 
-bigBtn.addEventListener('click', openPortal);
-bigBtn.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openPortal(); }});
+/* ══════════════════════════════════════
+   LOGIN — Konfigurasi
+   Tempel URL Web App Google Apps Script (berakhiran /exec) di bawah ini
+══════════════════════════════════════ */
+const API_URL      = 'https://script.google.com/macros/s/AKfycbyt3Jk7MyIWCfQ8nOW-UPeUZZPY7mD6dB-mjBQtRjWVOryWe5CpDeHPB1TkuA4OjGYE/exec';
+const MAX_ATTEMPTS = 3;    /* maksimal percobaan gagal berturut-turut */
+const LOCK_SECONDS = 30;   /* jeda sebelum boleh mencoba lagi (detik)  */
+
+const SS_TOKEN = 'muly_authToken';    /* sessionStorage: hilang saat tab ditutup */
+const LS_FAILS = 'muly_loginFails';   /* localStorage: jumlah gagal beruntun     */
+const LS_LOCK  = 'muly_loginLockUntil'; /* localStorage: waktu kunci berakhir    */
+
+/* ══════════════════════════════════════
+   LOGIN — Element Refs & State
+══════════════════════════════════════ */
+const loginOverlay = document.getElementById('login-overlay');
+const loginCard    = document.getElementById('login-card');
+const loginForm    = document.getElementById('login-form');
+const loginUser    = document.getElementById('login-user');
+const loginPass    = document.getElementById('login-pass');
+const wrapUser     = document.getElementById('wrap-user');
+const wrapPass     = document.getElementById('wrap-pass');
+const loginAlert   = document.getElementById('login-alert');
+const loginAlertTx = document.getElementById('login-alert-text');
+const loginLockbar = document.getElementById('login-lockbar');
+const lockbarFill  = document.getElementById('login-lockbar-fill');
+const loginSubmit  = document.getElementById('login-submit');
+const loginSubTxt  = document.getElementById('login-submit-text');
+const loginClose   = document.getElementById('login-close');
+const loginEye     = document.getElementById('login-eye');
+const eyeOn        = document.getElementById('eye-on');
+const eyeOff       = document.getElementById('eye-off');
+
+let loginBusy   = false;
+let lockTimer   = null;
+let loginOpen   = false;
+
+/* ── storage helpers ── */
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k, v); }catch(e){} }
+function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
+function getToken(){ try{ return sessionStorage.getItem(SS_TOKEN); }catch(e){ return null; } }
+function setToken(t){ try{ sessionStorage.setItem(SS_TOKEN, t); }catch(e){} }
+function clearToken(){ try{ sessionStorage.removeItem(SS_TOKEN); }catch(e){} }
+
+function getFails(){ return parseInt(lsGet(LS_FAILS) || '0', 10) || 0; }
+function setFails(n){ lsSet(LS_FAILS, String(n)); }
+function getLockUntil(){ return parseInt(lsGet(LS_LOCK) || '0', 10) || 0; }
+function isLocked(){ return getLockUntil() > Date.now(); }
+
+/* ══════════════════════════════════════
+   LOGIN — UI helpers
+══════════════════════════════════════ */
+function showAlert(msg, type){
+  loginAlertTx.textContent = msg;
+  loginAlert.classList.toggle('warn', type === 'warn');
+  loginAlert.classList.add('show');
+  loginCard.classList.toggle('is-error', type !== 'warn');
+  loginCard.classList.toggle('is-locked', type === 'warn');
+}
+function clearAlert(){
+  loginAlert.classList.remove('show','warn');
+  loginCard.classList.remove('is-error','is-locked');
+  wrapUser.classList.remove('invalid');
+  wrapPass.classList.remove('invalid');
+}
+function shakeCard(){
+  loginCard.classList.remove('shake');
+  void loginCard.offsetWidth;
+  loginCard.classList.add('shake');
+}
+function updateControls(){
+  const off = loginBusy || isLocked();
+  loginUser.disabled = off;
+  loginPass.disabled = off;
+  loginSubmit.disabled = off;
+  loginSubmit.classList.toggle('busy', loginBusy);
+  if(!isLocked()) loginSubTxt.textContent = loginBusy ? 'Memverifikasi' : 'Masuk';
+}
+
+/* ══════════════════════════════════════
+   LOGIN — Lockout 30 detik
+══════════════════════════════════════ */
+function startLock(untilTs){
+  lsSet(LS_LOCK, String(untilTs));
+  if(lockTimer) clearInterval(lockTimer);
+  loginLockbar.classList.add('show');
+  updateControls();
+
+  const total = LOCK_SECONDS * 1000;
+  function tick(){
+    const left = getLockUntil() - Date.now();
+    if(left <= 0){ endLock(); return; }
+    const sec = Math.ceil(left / 1000);
+    showAlert('Terlalu banyak percobaan gagal. Coba lagi dalam ' + sec + ' detik.', 'warn');
+    loginSubTxt.textContent = 'Tunggu ' + sec + 's';
+    lockbarFill.style.transform = 'scaleX(' + Math.max(0, Math.min(1, left / total)) + ')';
+  }
+  tick();
+  lockTimer = setInterval(tick, 250);
+}
+function endLock(){
+  if(lockTimer){ clearInterval(lockTimer); lockTimer = null; }
+  lsDel(LS_LOCK);
+  setFails(0);
+  loginLockbar.classList.remove('show');
+  clearAlert();
+  updateControls();
+  if(loginOpen) setTimeout(()=>{ loginUser.focus(); }, 40);
+}
+
+/* ══════════════════════════════════════
+   LOGIN — API
+══════════════════════════════════════ */
+function apiReady(){ return API_URL && API_URL.indexOf('PASTE_') !== 0; }
+
+async function postApi(payload){
+  /* text/plain agar tidak memicu preflight CORS pada Apps Script */
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload),
+    redirect: 'follow'
+  });
+  return res.json();
+}
+
+/* ══════════════════════════════════════
+   LOGIN — Show / Hide
+══════════════════════════════════════ */
+function showLogin(){
+  if(loginOpen) return;
+  loginOpen = true;
+  loginPass.value = '';
+  loginPass.type = 'password'; eyeOn.style.display = ''; eyeOff.style.display = 'none';
+  clearAlert();
+  loginOverlay.classList.add('visible');
+  requestAnimationFrame(()=> loginOverlay.classList.add('show'));
+
+  if(isLocked()){ startLock(getLockUntil()); }
+  else {
+    if(getLockUntil()) lsDel(LS_LOCK);
+    updateControls();
+    setTimeout(()=>{ loginUser.focus(); }, 320);
+  }
+}
+function hideLogin(){
+  if(!loginOpen) return;
+  loginOpen = false;
+  loginOverlay.classList.remove('show');
+  setTimeout(()=>{ if(!loginOpen) loginOverlay.classList.remove('visible'); }, 260);
+  loginPass.value = '';
+}
+
+loginClose.addEventListener('click', hideLogin);
+loginClose.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); hideLogin(); }});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && loginOpen) hideLogin(); });
+
+loginEye.addEventListener('click', ()=>{
+  const show = loginPass.type === 'password';
+  loginPass.type = show ? 'text' : 'password';
+  eyeOn.style.display  = show ? 'none' : '';
+  eyeOff.style.display = show ? '' : 'none';
+  loginPass.focus();
+});
+
+[loginUser, loginPass].forEach(el=> el.addEventListener('input', ()=>{
+  if(!isLocked()) clearAlert();
+}));
+
+/* ══════════════════════════════════════
+   LOGIN — Submit
+══════════════════════════════════════ */
+async function submitLogin(){
+  if(loginBusy || isLocked()) return;
+
+  const u = loginUser.value.trim();
+  const p = loginPass.value;
+
+  clearAlert();
+  if(!u || !p){
+    wrapUser.classList.toggle('invalid', !u);
+    wrapPass.classList.toggle('invalid', !p);
+    showAlert('Username dan password wajib diisi.', 'error');
+    shakeCard();
+    return;
+  }
+  if(!apiReady()){
+    showAlert('API login belum dikonfigurasi. Isi API_URL pada kode index.', 'error');
+    shakeCard();
+    return;
+  }
+
+  loginBusy = true; updateControls();
+  try{
+    const data = await postApi({ action:'login', username:u, password:p });
+
+    if(data && data.ok){
+      setToken(data.token);
+      setFails(0); lsDel(LS_LOCK);
+      loginPass.value = '';
+      hideLogin();
+      setTimeout(openPortal, 300);
+      return;
+    }
+
+    /* gagal: dikunci server */
+    if(data && data.locked){
+      setFails(MAX_ATTEMPTS);
+      loginPass.value = '';
+      shakeCard();
+      loginBusy = false;
+      startLock(Date.now() + (data.retryAfter || LOCK_SECONDS) * 1000);
+      return;
+    }
+
+    /* gagal: username/password salah atau tidak terdaftar */
+    const fails = getFails() + 1;
+    setFails(fails);
+    loginPass.value = '';
+    wrapUser.classList.add('invalid');
+    wrapPass.classList.add('invalid');
+    shakeCard();
+
+    if(fails >= MAX_ATTEMPTS){
+      loginBusy = false;
+      startLock(Date.now() + LOCK_SECONDS * 1000);
+    } else {
+      const sisa = MAX_ATTEMPTS - fails;
+      showAlert('Username atau password salah / tidak terdaftar. Sisa percobaan: ' + sisa + ' dari ' + MAX_ATTEMPTS + '.', 'error');
+      loginPass.disabled = false;
+      setTimeout(()=>{ loginPass.focus(); }, 30);
+    }
+  }catch(err){
+    /* gangguan jaringan tidak dihitung sebagai percobaan gagal */
+    showAlert('Tidak dapat terhubung ke server. Periksa koneksi internet lalu coba lagi.', 'error');
+    shakeCard();
+  }finally{
+    loginBusy = false;
+    updateControls();
+  }
+}
+loginForm.addEventListener('submit', e=>{ e.preventDefault(); submitLogin(); });
+
+/* ══════════════════════════════════════
+   LOGIN — Gerbang tombol Home utama
+   Sudah punya sesi valid → langsung buka portal, jika tidak → tampilkan login
+══════════════════════════════════════ */
+async function requestOpen(){
+  if(isOpen || busy || loginOpen) return;
+
+  const t = getToken();
+  if(t && apiReady()){
+    try{
+      const r = await postApi({ action:'verify', token:t });
+      if(r && r.ok){ openPortal(); return; }
+    }catch(e){}
+    clearToken();
+  }
+  showLogin();
+}
+
+bigBtn.addEventListener('click', requestOpen);
+bigBtn.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); requestOpen(); }});
 homeBtn.addEventListener('click', closePortal);
 homeBtn.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); closePortal(); }});
 
